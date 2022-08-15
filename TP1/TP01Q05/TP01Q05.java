@@ -10,13 +10,13 @@ class TP01Q05 {
     }
 
     public static boolean trueOuFalse(String exprecao, boolean val1, boolean val2){
-        boolean resp = false;
+        boolean resp = true;
 
         return resp;
     }
 
     public static boolean trueOuFalse(String exprecao, boolean val1, boolean val2, boolean val3){
-        boolean resp = false;
+        boolean resp = true;
 
         return resp;
     }
