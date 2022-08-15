@@ -24,7 +24,7 @@ class TP01Q01 {
        } while (isFim(entrada[numEntrada++]) == false);
        numEntrada--;   //Desconsiderar ultima linha contendo a palavra FIM
  
-       //Para cada linha de entrada, gerando uma de saida contendo o numero de letras maiusculas da entrada
+       //exibir resultado
        for(int i = 0; i < numEntrada; i++){
           if(isPalindromo(entrada[i])) MyIO.println("SIM");
           else MyIO.println("NAO");
