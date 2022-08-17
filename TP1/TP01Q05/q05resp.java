@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 //codigo feito em cima de um video do youtube. link: https://www.youtube.com/watch?v=_NYNw2OQOLs&ab_channel=csme
 
 //uma classe formada por cada valor dado na entrada
@@ -61,7 +63,7 @@ class interpreter {
     }
 } 
 
-public class TP01Q05 {
+public class q05resp {
 
     //método que irá ler e executar a expressão booleana
     public static int lerExpressao(interpreter interpreter) {
@@ -144,21 +146,16 @@ public class TP01Q05 {
     }
 
     public static void main(String[] args) {
-        int numOperandos;
+        Scanner input = new Scanner(System.in);
         interpreter interpreter = new interpreter();
 
-
-
-        //Leitura da entrada padrao
-        do {
-            //entrada[numEntrada] = MyIO.readLine();
-
-            //lê o primeiro número (2 ou 3 ou 0 - condição de parada)
-            numOperandos = MyIO.readInt();
+        //lê o primeiro número (2 ou 3 ou 0 - condição de parada)
+        int numOperandos = input.nextInt();
+        while (numOperandos != 0) {
             int[] operandos = new int[3];
             //armazena os números seguintes (0 ou 1) em um vetor
             for (int j = 0; j < numOperandos; j++) {
-                operandos[j] = MyIO.readInt();
+                operandos[j] = input.nextInt();
             }
             //armazena esse vetor no interpreter
             interpreter.setOperandos(operandos);
@@ -167,7 +164,7 @@ public class TP01Q05 {
             String espaco = "";
             String vazio = "";
             //lê a linha e armazena em espaco
-            espaco = MyIO.readLine();
+            espaco = input.nextLine();
             //tira os espaços de espaco e armazena o resultado em vazio
             vazio = tiraEspacoString(espaco);
             //armazena o vazio no interpreter
@@ -177,17 +174,9 @@ public class TP01Q05 {
             interpreter.setPosicao(0);
 
             int resultado = lerExpressao(interpreter); //executa o comando
-            MyIO.println(resultado); //imprime o resultado
-            numOperandos = MyIO.readInt(); //lê a próxima string
+            System.out.println(resultado); //imprime o resultado
+            numOperandos = input.nextInt(); //lê a próxima string
 
-
-
-         } while (numOperandos != 0);
-         //numEntrada--;   //Desconsiderar ultima linha contendo a palavra FIM
-   
-        //  //exibir resultado
-        //  for(int i = 0; i < numEntrada; i++){
-        //     // MyIO.println(cesar(entrada[i]));
-        //  }
+        } //fim do while
     }
 }
