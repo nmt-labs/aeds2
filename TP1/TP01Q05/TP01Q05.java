@@ -1,7 +1,7 @@
 //codigo feito em cima de um video do youtube. link: https://www.youtube.com/watch?v=_NYNw2OQOLs&ab_channel=csme
 
 //uma classe formada por cada valor dado na entrada
-class interpreter {
+class Interpreter {
 
     private String string;
     private int posicao;
@@ -55,7 +55,7 @@ class interpreter {
         return count;
     }
 
-    //método para somar 1 a posição atual da string
+    //metodo para somar 1 a posicao atual da string
     public void posicaoPlusPlus(int i) {
         this.posicao = posicao + i;
     }
@@ -63,14 +63,14 @@ class interpreter {
 
 public class TP01Q05 {
 
-    //método que irá ler e executar a expressão booleana
+    //metodo que ira ler e executar a expressao booleana
     //_ -> indica o cursor
-    public static int lerExpressao(interpreter interpreter) {
+    public static int lerExpressao(Interpreter interpreter) {
         int resultado = 0;
         int aux = 0;
-        String s = interpreter.getString(); //armazena a string do interpreter nessa variável
+        String s = interpreter.getString(); //armazena a string do interpreter nessa variavel
         char c = s.charAt(interpreter.getPosicao()); //caractere atual (A, B, C, a, n ou o)
-        interpreter.posicaoPlusPlus(1); //avança uma posição
+        interpreter.posicaoPlusPlus(1); //avança uma posicao
         
         if (c == 'A') {
             //recebe primeiro elemento do vetor de operandos
@@ -83,53 +83,53 @@ public class TP01Q05 {
             resultado = interpreter.getOperandos(2);
 
         } else if (c == 'n') { //se for not
-            interpreter.posicaoPlusPlus(3); //avança três posições -> t(?_
-            if (lerExpressao(interpreter) == 0) { //chama a função de novo para conseguir ler o operador, que é o caractere atual
+            interpreter.posicaoPlusPlus(3); //avanca tres posicoes -> t(?_
+            if (lerExpressao(interpreter) == 0) { //chama a funcao de novo para conseguir ler o operador, que e o caractere atual
                 resultado = 1;
             } else if (lerExpressao(interpreter) == 1) {
                 resultado = 0;
             }
-            interpreter.posicaoPlusPlus(1); //lê o próximo caractere
+            interpreter.posicaoPlusPlus(1); //le o proximo caractere
 
         } else if (c == 'a') { //se for and
-            interpreter.posicaoPlusPlus(3); //avança três posições -> d(?_
-            if (lerExpressao(interpreter) == 0) { //chama a função de novo para conseguir ler o operador, que é o caractere atual
+            interpreter.posicaoPlusPlus(3); //avanca tres posicoes -> d(?_
+            if (lerExpressao(interpreter) == 0) { //chama a funcao de novo para conseguir ler o operador, que e o caractere atual
                 resultado = 0;
             } else if (lerExpressao(interpreter) == 1) {
                 resultado = 1;
             }
-            while (s.charAt(interpreter.getPosicao()) == ',') { //se o caractere for uma vírgula, então existe mais operadores para aquela condição
-                interpreter.posicaoPlusPlus(1); //avança uma posição para conseguir ler o próximo operador
+            while (s.charAt(interpreter.getPosicao()) == ',') { //se o caractere for uma virgula, entao existe mais operadores para aquela condicao
+                interpreter.posicaoPlusPlus(1); //avanca uma posicao para conseguir ler o proximo operador
                 aux = lerExpressao(interpreter); //armazena o resultado desse operador num auxiliador
-                if (resultado == 0 || aux == 0) { //se qualquer um dos operadores for 0(false), então a expressão é necessáriamente falsa por se tratar de um AND
+                if (resultado == 0 || aux == 0) { //se qualquer um dos operadores for 0(false), entao a expressao e necessariamente falsa por se tratar de um AND
                     resultado = 0;
-                } else { //caso contrário, é verdadeira
+                } else { //caso contrário, e verdadeira
                     resultado = 1;
                 }
             }
-            interpreter.posicaoPlusPlus(1); //lê o último caractere
+            interpreter.posicaoPlusPlus(1); //le o ultimo caractere
 
         } else if (c == 'o') { //se for or
-            //avança duas posições -> r(
+            //avanca duas posicoes -> r(
             interpreter.posicaoPlusPlus(2);
-            if (lerExpressao(interpreter) == 0) { //chama a função de novo para conseguir ler o operador, que se encontra logo após o parenteses
+            if (lerExpressao(interpreter) == 0) { //chama a funcao de novo para conseguir ler o operador, que se encontra logo apos o parenteses
                 resultado = 0;
             } else if (lerExpressao(interpreter) == 1) {
                 resultado = 1;
             }
-            while (s.charAt(interpreter.getPosicao()) == ',') { //se o caractere for uma vírgula, então existe mais operadores para aquela condição
-                //avança uma posição para conseguir ler o próximo operador
+            while (s.charAt(interpreter.getPosicao()) == ',') { //se o caractere for uma virgula, entao existe mais operadores para aquela condicao
+                //avanca uma posicao para conseguir ler o proximo operador
                 interpreter.posicaoPlusPlus(1);
                 //armazena o resultado desse operador num auxiliador
                 aux = lerExpressao(interpreter);
-                //se qualquer um dos operadores for 0(false), então a expressão é necessáriamente verdadeira por se tratar de um OR
-                if (resultado == 1 || aux == 1) { //não deveria ser (resultado == 1 || aux == 1)?
+                //se qualquer um dos operadores for 0(false), entao a expressao e necessariamente verdadeira por se tratar de um OR
+                if (resultado == 1 || aux == 1) { //nao deveria ser (resultado == 1 || aux == 1)?
                     resultado = 1;
                 } else { //caso contrário, é falsa
                     resultado = 0;
                 }
             }
-            interpreter.posicaoPlusPlus(1); //lê o último caractere
+            interpreter.posicaoPlusPlus(1); //le o ultimo caractere
         }
 
         return resultado; //retornar o resultado
@@ -137,23 +137,23 @@ public class TP01Q05 {
     }
 
 
-    //método para tirar os espaços da string e, assim, conseguir executar o método lerExpressao sem problemas
+    //metodo para tirar os espacos da string e, assim, conseguir executar o metodo lerExpressao sem problemas
     public static String tiraEspacoString(String s) {
         String semEspaco = s;
         return semEspaco.replace(" ", "");
     }
 
     public static void main(String[] args) {
-        interpreter interpreter = new interpreter();
+        Interpreter interpreter = new interpreter();
 
         //Leitura da entrada padrao
-        //lê o primeiro número (2 ou 3 ou 0 - condição de parada)
+        //le o primeiro numero (2 ou 3 ou 0 - condicao de parada)
         int numOperandos = MyIO.readInt();
         while (numOperandos != 0) {
             MyIO.println("numOperando: "+numOperandos);
             
             int[] operandos = new int[3];
-            //armazena os números seguintes (0 ou 1) em um vetor
+            //armazena os numeros seguintes (0 ou 1) em um vetor
             for (int j = 0; j < numOperandos; j++) {
                 operandos[j] = MyIO.readInt();
             }
@@ -164,20 +164,20 @@ public class TP01Q05 {
             // tirando o espaço
             String espaco = "";
             String vazio = "";
-            //lê a linha e armazena em espaco
+            //le a linha e armazena em espaco
             espaco = MyIO.readLine();
-            //tira os espaços de espaco e armazena o resultado em vazio
+            //tira os espacos de espaco e armazena o resultado em vazio
             vazio = tiraEspacoString(espaco);
             //armazena o vazio no interpreter
             interpreter.setString(vazio);
             MyIO.println("string: " + interpreter.getString());
 
-            // setando a posição
+            // setando a posicao
             interpreter.setPosicao(0);
 
             int resultado = lerExpressao(interpreter); //executa o comando
-            MyIO.println(resultado); //imprime o resultado //consigo confirmar que tá lendo as entras certinho
-            numOperandos = MyIO.readInt(); //lê a próxima string
+            MyIO.println(resultado); //imprime o resultado //consigo confirmar que esta lendo as entras certinho
+            numOperandos = MyIO.readInt(); //le a próxima string
          } 
     }
 }
