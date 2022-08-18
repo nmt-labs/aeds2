@@ -1,7 +1,7 @@
 //codigo feito em cima de um video do youtube. link: https://www.youtube.com/watch?v=_NYNw2OQOLs&ab_channel=csme
 
 //uma classe formada por cada valor dado na entrada
-class interpreter {
+class Interpreter {
 
     private String string;
     private int posicao;
@@ -65,7 +65,7 @@ public class TP01Q05 {
 
     //metodo que ira ler e executar a expressao booleana
     //_ -> indica o cursor
-    public static int lerExpressao(interpreter interpreter) {
+    public static int lerExpressao(Interpreter interpreter) {
         int resultado = 0;
         int aux = 0;
         String s = interpreter.getString(); //armazena a string do interpreter nessa variavel
@@ -144,7 +144,7 @@ public class TP01Q05 {
     }
 
     public static void main(String[] args) {
-        interpreter interpreter = new interpreter();
+        Interpreter interpreter = new interpreter();
 
         //Leitura da entrada padrao
         //le o primeiro numero (2 ou 3 ou 0 - condicao de parada)
