@@ -3,67 +3,67 @@ import java.util.Scanner;
 //codigo feito em cima de um video do youtube. link: https://www.youtube.com/watch?v=_NYNw2OQOLs&ab_channel=csme
 
 //uma classe formada por cada valor dado na entrada
-class interpreter {
+// class interpreter {
 
-    private String string;
-    private int posicao;
-    private int[] operandos = new int[3];
-    private int count = 0;
+//     private String string;
+//     private int posicao;
+//     private int[] operandos = new int[3];
+//     private int count = 0;
 
-    //inicializar a classe -> todos os atributos zerados
-    public interpreter() {
-        this.string = "";
-        this.posicao = 0;
-        for (int i = 0; i < operandos.length; i++) {
-            operandos[i] = 0;
-        }
-    }
+//     //inicializar a classe -> todos os atributos zerados
+//     public interpreter() {
+//         this.string = "";
+//         this.posicao = 0;
+//         for (int i = 0; i < operandos.length; i++) {
+//             operandos[i] = 0;
+//         }
+//     }
 
-    public void setString(String s) {
-        this.string = s;
-    }
+//     public void setString(String s) {
+//         this.string = s;
+//     }
 
-    public void setPosicao(int i) {
-        this.posicao = i;
-    }
+//     public void setPosicao(int i) {
+//         this.posicao = i;
+//     }
 
-    public void setOperandos(int[] array) {
-        for (int i = 0; i < 3; i++) {
-            this.operandos[i] = array[i];
-        }
-    }
+//     public void setOperandos(int[] array) {
+//         for (int i = 0; i < 3; i++) {
+//             this.operandos[i] = array[i];
+//         }
+//     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+//     public void setCount(int count) {
+//         this.count = count;
+//     }
 
-    public int[] getOperandos() {
-        return operandos;
-    }
+//     public int[] getOperandos() {
+//         return operandos;
+//     }
 
-    public int getOperandos(int num) {
-        return operandos[num];
-    }
+//     public int getOperandos(int num) {
+//         return operandos[num];
+//     }
 
-    public int getPosicao() {
-        return posicao;
-    }
+//     public int getPosicao() {
+//         return posicao;
+//     }
 
-    public String getString() {
-        return string;
-    }
+//     public String getString() {
+//         return string;
+//     }
 
-    public int getCount() {
-        return count;
-    }
+//     public int getCount() {
+//         return count;
+//     }
 
-    //método para somar 1 a posição atual da string
-    public void posicaoPlusPlus(int i) {
-        this.posicao = posicao + i;
-    }
-} 
+//     //método para somar 1 a posição atual da string
+//     public void posicaoPlusPlus(int i) {
+//         this.posicao = posicao + i;
+//     }
+// } 
 
-public class q05resp {
+public class Q05resp {
 
     //método que irá ler e executar a expressão booleana
     public static int lerExpressao(interpreter interpreter) {

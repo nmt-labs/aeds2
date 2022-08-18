@@ -1,104 +1,327 @@
+numOperando: 2
+operandos: 000
+string: and(not(A),not(B))
 0
+numOperando: 2
+operandos: 010
+string: and(not(A),not(B))
 0
+numOperando: 2
+operandos: 100
+string: and(not(A),not(B))
 0
+numOperando: 2
+operandos: 110
+string: and(not(A),not(B))
 0
-0
-0
+numOperando: 2
+operandos: 000
+string: not(and(A,B))
 1
+numOperando: 2
+operandos: 010
+string: not(and(A,B))
 1
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
-0
+numOperando: 2
+operandos: 100
+string: not(and(A,B))
+1
+numOperando: 2
+operandos: 110
+string: not(and(A,B))
+1
+numOperando: 3
+operandos: 000
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 001
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 010
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 011
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 100
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 101
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 110
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 111
+string: and(or(A,B),not(and(B,C)))
+0
+numOperando: 3
+operandos: 000
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 001
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 010
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 011
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 100
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 101
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 110
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 111
+string: and(A,or(B,C))
+0
+numOperando: 3
+operandos: 000
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 001
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 010
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 011
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 100
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 101
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 110
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 111
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 000
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 001
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 010
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 011
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 100
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 101
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 110
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 111
+string: or(and(A,B),and(A,C))
+0
+numOperando: 3
+operandos: 000
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 001
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 010
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 011
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 100
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 101
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 110
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 111
+string: or(A,and(B,C))
+0
+numOperando: 3
+operandos: 000
+string: or(or(A,B),C)
+0
+numOperando: 3
+operandos: 001
+string: or(or(A,B),C)
+1
+numOperando: 3
+operandos: 010
+string: or(or(A,B),C)
+0
+numOperando: 3
+operandos: 011
+string: or(or(A,B),C)
+0
+numOperando: 3
+operandos: 100
+string: or(or(A,B),C)
+0
+numOperando: 3
+operandos: 101
+string: or(or(A,B),C)
+0
+numOperando: 3
+operandos: 110
+string: or(or(A,B),C)
+0
+numOperando: 3
+operandos: 111
+string: or(or(A,B),C)
+0
+numOperando: 3
+operandos: 000
+string: or(and(A,B,C),and(or(A,B),C))
+0
+numOperando: 3
+operandos: 001
+string: or(and(A,B,C),and(or(A,B),C))
+0
+numOperando: 3
+operandos: 010
+string: or(and(A,B,C),and(or(A,B),C))
+0
+numOperando: 3
+operandos: 011
+string: or(and(A,B,C),and(or(A,B),C))
+0
+numOperando: 3
+operandos: 100
+string: or(and(A,B,C),and(or(A,B),C))
+0
+numOperando: 3
+operandos: 101
+string: or(and(A,B,C),and(or(A,B),C))
+1
+numOperando: 3
+operandos: 110
+string: or(and(A,B,C),and(or(A,B),C))
+0
+numOperando: 3
+operandos: 111
+string: or(and(A,B,C),and(or(A,B),C))
+1
+numOperando: 3
+operandos: 000
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+0
+numOperando: 3
+operandos: 001
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+0
+numOperando: 3
+operandos: 010
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+0
+numOperando: 3
+operandos: 011
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+0
+numOperando: 3
+operandos: 100
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+0
+numOperando: 3
+operandos: 101
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+1
+numOperando: 3
+operandos: 110
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+0
+numOperando: 3
+operandos: 111
+string: or(and(A,B,C),and(A,not(B),C),and(not(A),not(B),C),and(not(A),not(B),not(C)))
+1
+numOperando: 3
+operandos: 000
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 001
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 010
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 011
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 100
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 101
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 110
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 111
+string: or(not(A),B,and(A,B,not(C)))
+0
+numOperando: 3
+operandos: 000
+string: and(or(A,B,not(C)),or(B,C),or(not(A),C))
+0
+numOperando: 3
+operandos: 001
+string: and(or(A,B,not(C)),or(B,C),or(not(A),C))
