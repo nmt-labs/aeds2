@@ -6,7 +6,7 @@ class TP01Q11{
     public static boolean isPalindromo(String texto, int i, int j) {
         boolean resp = true;
         if(i <= j) {
-            if (texto.charAt(i) != texto.charAt(j) resp = false;
+            if (texto.charAt(i) != texto.charAt(j)) resp = false;
             else resp = isPalindromo(texto, (i+1), (j-1));
         }
                 
