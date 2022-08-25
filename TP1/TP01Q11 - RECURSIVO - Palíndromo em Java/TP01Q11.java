@@ -7,7 +7,7 @@ class TP01Q11{
         boolean resp = true;
         if(i <= j) {
             if (texto.charAt(i) != texto.charAt(j) resp = false;
-            else resp = IsPalindromo(texto, (i+1), (j-1));
+            else resp = isPalindromo(texto, (i+1), (j-1));
         }
                 
         return resp;
