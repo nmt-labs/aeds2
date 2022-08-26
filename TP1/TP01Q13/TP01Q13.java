@@ -3,12 +3,11 @@ class TP01Q13 {
         return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
      }
 
-    public static String cesar(String texto, int i) {
+    public static String cesar(String texto, int i, String cifra) {
 
-        if ( i == texto.length()) return texto;
-        else {
-          texto.charAt(i) = (char)(texto.charAt(i) + 3);
-          cesar(texto, i+1)
+        if ( i < texto.length()){
+            cifra += (char)(texto.charAt(i) + 3);
+            cifra = cesar(texto, i+1, cifra);
          }
         return cifra;
     }
@@ -25,7 +24,7 @@ class TP01Q13 {
   
         //exibir resultado
         for(int i = 0; i < numEntrada; i++){
-           MyIO.println(cesar(entrada[i], 0));
+           MyIO.println(cesar(entrada[i], 0, ""));
         }
      }
 }
