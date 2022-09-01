@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-int isPalindromo(char texto[1000]){
+int isPalindromo(char texto[1000], int i, int j){
     int resp = 1; //true
 
     if(i <= j) {
-          if (texto[i] != texto[j]) resp = false;
+          if (texto[i] != texto[j]) resp = 0;
           else resp = isPalindromo(texto, (i+1), (j-1));
       }
 
@@ -31,7 +31,7 @@ int main(){
     //f -> frase
     //contar letras maiúsculas de cada frase
     for(int f = 0; f < i; f++){
-        if(isPalindromo(texto[f])) printf("SIM\n");
+        if(isPalindromo(texto[f], 0, strlen(texto[f])-1)) printf("SIM\n");
         else printf("NAO\n");
     }
 }
