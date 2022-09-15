@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 class Game{
@@ -190,6 +192,7 @@ class Game{
     //clone
     public Game clone(){
         Game resp = new Game();
+
         resp.app_id = this.app_id;
         resp.name = this.name;
         resp.release_date = this.release_date;
@@ -211,10 +214,133 @@ class Game{
     }
 
     public void printGame(){
-        MyIO.println(app_id + " " + name + " " + release_date + " " + owners + " " + price + " " + dlcs + " " + languages + " " + website + " " + windows + " " + mac + " " + linux + " " + upvotes + " " + avg_pt + " " + developers + " " + genres);
+        SimpleDateFormat formatter2 = new SimpleDateFormat("MMM/yyyy"); // format to print
+        //release_date = formatter2.format(release_date);
+
+        //calculate time
+
+        MyIO.println(app_id + " " + name + " " + formatter2.format(release_date) + " " + owners + " " + price + " " + dlcs + " " + languages + " " + website + " " + windows + " " + mac + " " + linux + " " + upvotes + " " + avg_pt + " " + developers + " " + genres);
     }
 
-    public void readGame(){
-        
+    public void readGame(int idGame){
+        String newline = "";
+
+        //open csv file
+        Arq.openRead("/tmp/games.csv");
+
+        //find equal id
+        do{
+            newline = Arq.readLine();
+            app_id = MyIO.readInt(newline);
+        }while (app_id != idGame); // read the first int in each line of the file
+
+        //close file
+        Arq.close();
+
+
+        // read this register data
+
+            // read the name
+            String aux = "";
+            while(MyIO.readChar(newline) != ','){
+                aux += MyIO.readChar(newline);
+            }
+            name = aux.replace(",", ""); // remove the extra comma
+
+            // read the date
+            aux = ""; // clear aux
+            while(MyIO.readChar(newline) != ','){
+                aux += MyIO.readChar(newline);
+            }
+            aux = aux.replace("\"", ""); // remove the (")
+            SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy"); // format to read
+            try {
+                release_date = formatter.parse(aux); // parse string to date
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            //read owners
+            aux = ""; // clear aux
+            while(MyIO.readChar(newline) != ','){
+                aux += MyIO.readChar(newline);
+            }
+            owners = aux;
+
+            //read age
+            age = MyIO.readInt(newline);
+            
+            //read price
+            price = MyIO.readFloat(newline);
+
+            //read dlcs
+            dlcs = MyIO.readInt(newline);
+
+            //read languages
+            aux = ""; // clear aux
+            while(MyIO.readChar(newline) != ']'){
+                aux += MyIO.readChar(newline);
+            }
+            //remove all spaces, ', " and []
+            aux = aux.replace("\'", "");
+            aux = aux.replace("\"", "");
+            aux = aux.replace("[", "");
+            aux = aux.replace("]", "");
+            //aux = aux.trim(); // remove spaces
+            languages = aux.split(","); // return an array
+
+            //read website
+            aux = ""; // clear aux
+            while(MyIO.readChar(newline) != ','){
+                aux += MyIO.readChar(newline);
+            }
+            website = aux;
+
+            //read windows
+            windows = MyIO.readBoolean(newline);
+
+            //read mac
+            mac = MyIO.readBoolean(newline);
+
+            //read linux
+            linux = MyIO.readBoolean(newline);
+
+            //read upvotes
+            int total = MyIO.readInt(newline); // read total votes
+            int votes = MyIO.readInt(newline); // real upvotes
+            upvotes = (votes / total) * 100; // calculate perc
+
+            //read avg_pt
+            avg_pt = MyIO.readInt(newline);
+
+            //read developers
+
+            //read genres
+
+
+    }
+}
+
+
+class TP02Q01{
+    public static boolean isFim(String s){
+        return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
+     }
+
+    public static void main(String[] args){
+        Game game = new Game();
+        String[] entrada = new String[100];
+        int index = 0, id = 0;
+
+        do{
+            entrada[index] = MyIO.readLine(); // create array of ids -> string
+        } while(!isFim(entrada[index++]));
+        index--;
+
+        for(int i = 0; i < index; i++){
+            id = Integer.parseInt(entrada[i]); // convert the id(array) to int
+            game.readGame(id);
+            game.printGame();
+        }
     }
 }
