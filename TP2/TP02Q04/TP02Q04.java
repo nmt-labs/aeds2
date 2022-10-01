@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -554,10 +555,46 @@ class Lista {
        }
        return retorno;
     }
+
+    public void sort(){
+        // organize list by name - insercao
+        for (int i = 1; i < n; i++) {
+            Game tmp = new Game();
+			
+            tmp = array[i].clone();
+            int j = i - 1;
+
+            while ((j >= 0) && (array[j].getName().compareTo(tmp.getName()) > 0)) {
+            array[j + 1] = array[j].clone();
+            j--;
+            }
+            array[j + 1] = tmp.clone();
+        }
+    }
+
+    //pesquisa binaria por NOME
+    public boolean pesquisaBinaria(String x){
+        boolean retorno = false;
+        int dir = (n - 1), esq = 0, meio;
+
+        while (esq <= dir) {
+            meio = (esq + dir) / 2;
+            if (x.equals(array[meio].getName())) {
+                retorno = true;
+                esq = dir + 1;
+            } else if (x.compareTo(array[meio].getName()) > 0) {
+                esq = meio + 1;
+            } else {
+                dir = meio - 1;
+            }
+        }
+
+        return retorno;
+    }
  }
 
 
-class TP02Q03{
+class TP02Q04{
     public static boolean isFim(String s){
         return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
      }
@@ -639,12 +676,18 @@ class TP02Q03{
         // games.exibir();
         // MyIO.println("-----------------------------");
 
-        //SEQUENTIAL SEARCH BY NAME
-        //pesquisa sequencial
+        // organizar a lista
+        games.sort();
+
+        // MyIO.println("------lista organizada---------");
+        // games.exibir();
+        // MyIO.println("-------------------------------");
+
+        //BINARY SEARCH BY NAME
         pesquisa = MyIO.readLine();
 
         while (!isFim(pesquisa)){
-            MyIO.println(games.pesquisaSequencial(pesquisa) ? "SIM" : "NAO");
+            MyIO.println(games.pesquisaBinaria(pesquisa) ? "SIM" : "NAO");
 
             pesquisa = MyIO.readLine();
         }
@@ -654,7 +697,7 @@ class TP02Q03{
         double tempo = (fim-inicio)/1000.0;
 
         //file to write time and nº of comparassions
-        File log = new File("matricula_sequencial.txt");
+        File log = new File("matricula_binaria.txt");
 
         try {
             if (!log.exists()) {
