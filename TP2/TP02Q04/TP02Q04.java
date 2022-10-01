@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -556,33 +555,38 @@ class Lista {
        return retorno;
     }
 
-    public void sort(){
+    public void sort(int contador){
         // organize list by name - insercao
         for (int i = 1; i < n; i++) {
+            contador++;
             Game tmp = new Game();
 			
             tmp = array[i].clone();
             int j = i - 1;
 
             while ((j >= 0) && (array[j].getName().compareTo(tmp.getName()) > 0)) {
-            array[j + 1] = array[j].clone();
-            j--;
+                contador += 2;
+                array[j + 1] = array[j].clone();
+                j--;
             }
             array[j + 1] = tmp.clone();
         }
     }
 
     //pesquisa binaria por NOME
-    public boolean pesquisaBinaria(String x){
+    public boolean pesquisaBinaria(String x, int contador){
         boolean retorno = false;
         int dir = (n - 1), esq = 0, meio;
 
         while (esq <= dir) {
+            contador++;
             meio = (esq + dir) / 2;
             if (x.equals(array[meio].getName())) {
+                contador++;
                 retorno = true;
                 esq = dir + 1;
             } else if (x.compareTo(array[meio].getName()) > 0) {
+                contador++;
                 esq = meio + 1;
             } else {
                 dir = meio - 1;
@@ -624,6 +628,8 @@ class TP02Q04{
 
             //put all lines in an array
             while((line[indexID] = leitor.readLine()) != null) {
+                comp++; //add comparassion
+
                 String separador[] =  line[indexID].split(",");
                  
                 //put all ids in an array
@@ -646,15 +652,19 @@ class TP02Q04{
         //read until FIM
         do{
             entrada[index] = MyIO.readLine();
+            comp++; //add comparassion
         }while(!isFim(entrada[index++]));
         index--;
 
         //insert games in a List
         for(int j = 0; j < index; j++){
+            comp++; //add comparassion
             for(int k = 0; k < indexID; k++){
+                comp++; //add comparassion
 
                 //find id
                 if(entrada[j].equals(id[k])){
+                    comp++; //add comparassion
                     Game game = new Game();
                     //create new game and fill it with the correspondent line of the id
                     // MyIO.println("id[k] " + id[k]);
@@ -677,7 +687,7 @@ class TP02Q04{
         // MyIO.println("-----------------------------");
 
         // organizar a lista
-        games.sort();
+        games.sort(comp);
 
         // MyIO.println("------lista organizada---------");
         // games.exibir();
@@ -687,7 +697,9 @@ class TP02Q04{
         pesquisa = MyIO.readLine();
 
         while (!isFim(pesquisa)){
-            MyIO.println(games.pesquisaBinaria(pesquisa) ? "SIM" : "NAO");
+            comp++; //add comparassion
+
+            MyIO.println(games.pesquisaBinaria(pesquisa, comp) ? "SIM" : "NAO");
 
             pesquisa = MyIO.readLine();
         }
@@ -706,7 +718,7 @@ class TP02Q04{
             
             FileWriter fw = new FileWriter(log, false);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("766430\t" + tempo + "\t");
+            bw.write("766430\t" + tempo + "\t" + comp);
 
             bw.close();
             fw.close();

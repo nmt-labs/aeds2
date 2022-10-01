@@ -587,6 +587,8 @@ class TP02Q03{
 
             //put all lines in an array
             while((line[indexID] = leitor.readLine()) != null) {
+                comp++; //add comparassion
+
                 String separador[] =  line[indexID].split(",");
                  
                 //put all ids in an array
@@ -609,15 +611,19 @@ class TP02Q03{
         //read until FIM
         do{
             entrada[index] = MyIO.readLine();
+            comp++; //add comparassion
         }while(!isFim(entrada[index++]));
         index--;
 
         //insert games in a List
         for(int j = 0; j < index; j++){
+            comp++; //add comparassion
             for(int k = 0; k < indexID; k++){
+                comp++; //add comparassion
 
                 //find id
                 if(entrada[j].equals(id[k])){
+                    comp++; //add comparassion
                     Game game = new Game();
                     //create new game and fill it with the correspondent line of the id
                     // MyIO.println("id[k] " + id[k]);
@@ -644,6 +650,8 @@ class TP02Q03{
         pesquisa = MyIO.readLine();
 
         while (!isFim(pesquisa)){
+            comp++; //add comparassion
+            
             MyIO.println(games.pesquisaSequencial(pesquisa) ? "SIM" : "NAO");
 
             pesquisa = MyIO.readLine();
@@ -663,7 +671,7 @@ class TP02Q03{
             
             FileWriter fw = new FileWriter(log, false);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("766430\t" + tempo + "\t");
+            bw.write("766430\t" + tempo + "\t" + comp);
 
             bw.close();
             fw.close();
