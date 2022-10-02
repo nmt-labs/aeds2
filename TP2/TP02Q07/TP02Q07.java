@@ -1,18 +1,13 @@
-/**
- * @file Game.java
- * @author Pedro Costa
- * @version 0.1
- * @date 2022-09-25
- * 
- * @copyright Copyright (c) 2022
- */
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class Game {
+class Game {
 
     static SimpleDateFormat default_dateFormat = new SimpleDateFormat("MMM/yyyy", Locale.ENGLISH);
 
@@ -485,5 +480,252 @@ public class Game {
                 + this.languages + " " + this.website + " " + this.windows + " " + this.mac + " " + this.linux + " "
                 + (Float.isNaN(this.upvotes) ? "0.0% " : df.format(this.upvotes) + "% ") + avg_pt + this.developers
                 + " " + this.genres);
+    }
+}
+
+class FilaCircular {
+    private Game[] array;
+    //private int frente; // Aponta para a posi��o do vetor que armazena o primeiro elemento da fila
+    private int qtde;   // Aponta para a posi��o do vetor que armazena o �ltimo elemento da fila
+ 
+    /**
+     * Construtor da classe.
+     */
+    public FilaCircular() {
+       this(5);
+    }
+ 
+    /**
+     * Construtor da classe.
+     * @param tamanho Tamanho da fila.
+     */
+    public FilaCircular(int tamanho){
+       array = new Game[tamanho];
+       qtde = 0;
+    }
+ 
+    /**
+     * Insere um elemento na �ltima posi��o da fila.
+     * @param Object item: elemento a ser inserido.
+     */
+    public boolean enfileira(Game item) {
+        if (qtde == array.length){
+            this.desenfileira();
+
+            this.enfileira(item);
+        }
+
+        if (qtde < array.length) {
+            array[qtde++] = item.clone();
+            return true;
+        }
+        return false;
+    }
+ 
+    /**
+     * Remove o elemento armazenado no posi��o referenciada pelo �ndice "frente".
+     * @return Elemento desenfileirado.
+     */
+    public Game desenfileira() {
+       //validar remocao
+       if (qtde == 0)
+          return null;
+       else {
+            Game aux = array[0].clone();
+            qtde--;
+
+            for(int i = 0; i < qtde; i++){
+                array[i] = array[i+1].clone();
+            }
+            
+            return aux;
+       }
+    }
+ 
+     public void imprimeVet() {
+       System.out.print("[ ");
+       for(int i = 0; i < array.length; i++)
+          System.out.print(array[i].getName() + " ");
+       System.out.println("]");
+     }
+     
+     /**
+      * Mostra os elementos da Fila separados por espa�os.
+      */    
+    public void mostrar (){
+ 
+       for(int i = 0; i < qtde; i++){
+        System.out.print("[" + i + "] ");
+        array[i].imprimir();
+       }
+
+    }
+ 
+    /**
+     * Mostra os elementos da Fila separados por espa�os (m�todo recursivo).
+     */  
+    public void mostrarRec(){
+       System.out.print("[ ");
+       mostrarRec(0);
+       System.out.println("]");
+    }
+ 
+    public void mostrarRec(int i){
+       if(i != qtde){
+          System.out.print(array[i % array.length].getName() + " ");
+          mostrarRec(++i);
+       }
+    }
+ 
+    /**
+     * Retorna um boolean indicando se a fila esta vazia
+     * @return boolean indicando se a fila esta vazia
+     */
+    public boolean vazia() {
+       return qtde == 0; 
+    }
+
+    public int mediaAvg(){
+        double resul = 0;
+        int media = 0;
+        
+        for(int i = 0; i < qtde; i++){
+            resul += array[i].getAvgPlaytime();
+        }
+
+        //tem que arredendar pra cima
+        resul = resul / qtde;
+        //MyIO.println("resul: " + resul);
+        media = (int) Math.round(resul);
+
+        return media;
+    }
+ }
+
+class TP02Q07{
+    public static boolean isFim(String s){
+        return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
+    }
+
+    public static void main(String[] args) throws Exception {
+        MyIO.setCharset("UTF-8");
+
+        //FIRST PART
+        FilaCircular games = new FilaCircular(5);
+
+        String[] entrada = new String[100];
+
+        String[] line = new String[5000];
+        String[] id = new String[5000];
+        int index = 0, indexID = 0;
+
+        String arq = "//tmp//games.csv";
+        BufferedReader leitor = null;
+
+        //CREATE AND ARRAY WITH ALL LINES FROM FILE
+        try{
+            //read from file
+            leitor = new BufferedReader(new FileReader(arq));
+
+            //put all lines in an array
+            while((line[indexID] = leitor.readLine()) != null) {
+
+                String separador[] =  line[indexID].split(",");
+                
+                //put all ids in an array
+                id[indexID++] = separador[0];
+            }
+        }catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally{
+            if (leitor != null){
+                try {
+                    leitor.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //read until FIM
+        do{
+            entrada[index] = MyIO.readLine();
+        }while(!isFim(entrada[index++]));
+        index--;
+
+        //insert games in a List
+        for(int j = 0; j < index; j++){
+            for(int k = 0; k < indexID; k++){
+
+                //find id
+                if(entrada[j].equals(id[k])){
+                    Game game = new Game();
+                    //create new game and fill it with the correspondent line of the id
+
+                    game.ler(line[k]);   
+                    //game.imprimir();     
+
+                    //insert games in a List
+                    games.enfileira(game);
+                    MyIO.println(games.mediaAvg());
+                    break;
+                }
+            }
+        }
+
+        //print list
+        // MyIO.println("----------lista original----------");
+        // games.mostrar();
+        // MyIO.println("----------------------------------");
+
+        //SECOND PART
+        int qnt;
+        String linha, comando, game_id;
+        Game game = new Game();
+
+        qnt = MyIO.readInt();
+
+        for(int i = 0; i < qnt;  i++){
+            linha = MyIO.readLine(); //read input line
+            MyIO.println(linha);
+
+            String[] separar = linha.split(" "); //split line
+            
+            comando = separar[0]; //first part is the command
+
+            switch(comando){
+                case "I":
+                    game_id = separar[1]; //second part is the game id
+                    for(int k = 0; k < indexID; k++){
+                        //find id
+                        if(game_id.equals(id[k])){
+                            game.ler(line[k]);
+
+                            k = indexID; //stop searching
+                        }
+                    }
+                    games.enfileira(game);
+                    MyIO.println(games.mediaAvg());
+                    // MyIO.println("----------------------------------");
+                    // games.mostrar();
+                    // MyIO.println("----------------------------------");
+
+                    break;
+
+                case "R":
+                    game = games.desenfileira();
+                    MyIO.println("(R) " + game.getName());
+
+                    // MyIO.println("----------------------------------");
+                    // games.mostrar();
+                    // MyIO.println("----------------------------------");
+                    break;
+            }
+        }
+
+        //print list
+        // MyIO.println("----------------lista final--------------");
+        games.mostrar();
+        // MyIO.println("----------------------------------");
     }
 }

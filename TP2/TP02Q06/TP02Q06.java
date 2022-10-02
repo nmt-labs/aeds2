@@ -1,18 +1,13 @@
-/**
- * @file Game.java
- * @author Pedro Costa
- * @version 0.1
- * @date 2022-09-25
- * 
- * @copyright Copyright (c) 2022
- */
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class Game {
+class Game {
 
     static SimpleDateFormat default_dateFormat = new SimpleDateFormat("MMM/yyyy", Locale.ENGLISH);
 
@@ -485,5 +480,201 @@ public class Game {
                 + this.languages + " " + this.website + " " + this.windows + " " + this.mac + " " + this.linux + " "
                 + (Float.isNaN(this.upvotes) ? "0.0% " : df.format(this.upvotes) + "% ") + avg_pt + this.developers
                 + " " + this.genres);
+    }
+}
+
+class Pilha {
+	private Game[] array;
+	private int qtde;
+
+	/**
+	 * Construtor da classe.
+	 */
+	public Pilha() {
+		this(5);
+	}
+
+	/**
+	 * Construtor da classe.
+	 * 
+	 * @param tamanho Tamanho da pilha.
+	 */
+	public Pilha(int tamanho) {
+		array = new Game[tamanho];
+		qtde = 0;
+	}
+
+	/**
+	 * Insere um elemento na ultima posicao da lista.
+	 * 
+	 * @param Elemento a ser inserido.
+	 */
+	public boolean empilha(Game item) {
+		// Validar a inser��o
+		if (qtde < array.length) {
+			array[qtde] = item.clone();
+			qtde++;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Desempilha um elemento da pilha (o �ltimo elemento inserido).
+	 * 
+	 * @return Elemento removido.
+	 */
+	public Game desempilha() {
+		if (qtde > 0)
+			return array[--qtde];
+		return null;
+	}
+
+	/**
+	 * Mostra os elementos da lista separados por espacos.
+	 */
+	public void mostrar() {
+		for (int i = 0; i < qtde; i++) {
+			System.out.print("[" + i + "] ");
+            array[i].imprimir();
+		}
+	}
+
+	/**
+	 * Procura um elemento e retorna se ele existe.
+	 * 
+	 * @param item: O elemento a ser pesquisado.
+	 * @return Retorna true se o item existir, false caso contr�rio.
+	 */
+	public boolean pesquisar(String item) {
+		for (int i = 0; i < qtde; i++)
+			if (array[i].getName().equals(item))
+				return true;
+		return false;
+	}
+}
+
+  class TP02Q06{
+    public static boolean isFim(String s){
+        return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
+    }
+
+    public static void main(String[] args) throws Exception {
+        MyIO.setCharset("UTF-8");
+
+        //FIRST PART
+        Pilha games = new Pilha(100);
+
+        String[] entrada = new String[100];
+
+        String[] line = new String[5000];
+        String[] id = new String[5000];
+        int index = 0, indexID = 0;
+
+        String arq = "//tmp//games.csv";
+        BufferedReader leitor = null;
+
+        //CREATE AND ARRAY WITH ALL LINES FROM FILE
+        try{
+            //read from file
+            leitor = new BufferedReader(new FileReader(arq));
+
+            //put all lines in an array
+            while((line[indexID] = leitor.readLine()) != null) {
+
+                String separador[] =  line[indexID].split(",");
+                
+                //put all ids in an array
+                id[indexID++] = separador[0];
+            }
+        }catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally{
+            if (leitor != null){
+                try {
+                    leitor.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //read until FIM
+        do{
+            entrada[index] = MyIO.readLine();
+        }while(!isFim(entrada[index++]));
+        index--;
+
+        //insert games in a List
+        for(int j = 0; j < index; j++){
+            for(int k = 0; k < indexID; k++){
+
+                //find id
+                if(entrada[j].equals(id[k])){
+                    Game game = new Game();
+                    //create new game and fill it with the correspondent line of the id
+
+                    game.ler(line[k]);   
+                    //game.imprimir();     
+
+                    //insert games in a List
+                    games.empilha(game);
+                    break;
+                }
+            }
+        }
+
+        //print list
+        // MyIO.println("----------lista original----------");
+        // games.mostrar();
+        // MyIO.println("----------------------------------");
+
+        //SECOND PART
+        int qnt;
+        String linha, comando, game_id;
+        Game game = new Game();
+
+        qnt = MyIO.readInt();
+
+        for(int i = 0; i < qnt;  i++){
+            linha = MyIO.readLine(); //read input line
+
+            String[] separar = linha.split(" "); //split line
+            
+            comando = separar[0]; //first part is the command
+
+            switch(comando){
+                case "I":
+                    game_id = separar[1]; //second part is the game id
+                    for(int k = 0; k < indexID; k++){
+                        //find id
+                        if(game_id.equals(id[k])){
+                            game.ler(line[k]);
+
+                            k = indexID; //stop searching
+                        }
+                    }
+                    games.empilha(game);
+                    // MyIO.println("----------------------------------");
+                    // games.mostrar();
+                    // MyIO.println("----------------------------------");
+
+                    break;
+
+                case "R":
+                    game = games.desempilha();
+                    MyIO.println("(R) " + game.getName());
+
+                    // MyIO.println("----------------------------------");
+                    // games.mostrar();
+                    // MyIO.println("----------------------------------");
+                    break;
+            }
+        }
+
+        //print list
+        // MyIO.println("----------------lista final--------------");
+        games.mostrar();
+        // MyIO.println("----------------------------------");
     }
 }
