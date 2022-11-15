@@ -598,32 +598,41 @@ class Geracao {
 
 }
 
+//LISTA DUPLAMENTE CADEADA - INICIO
+class CCelulaDup {
 
-/**
- * 
- * @author Rodrigo Richard Gomes (baseado no c�digo de Max do Val Machado)
- * @version 1 10/2020
- * 
- */
-class Lista{
-	private Game[] array;
-	private int n, comp, mov;
+	public Game item; // O Item armazendo pela clula
+	public CCelulaDup ant; // Referencia a celula anterior
+	public CCelulaDup prox; // Referencia a proxima celula
 
-	/**
-	 * Construtor da classe.
-	 */
-	public Lista() {
-		this(6);
+	public CCelulaDup() {
+		item = null;
+		ant = null;
+		prox = null;
 	}
 
-	/**
-	 * Construtor da classe.
-	 * 
-	 * @param tamanho Tamanho da lista.
-	 */
-	public Lista(int tamanho) {
-		array = new Game[tamanho];
-		n = 0;
+	public CCelulaDup(Game valorItem) {
+		item = valorItem;
+		ant = null;
+		prox = null;
+	}
+
+	public CCelulaDup(Game valorItem, CCelulaDup celulaAnt, CCelulaDup proxCelula) {
+		item = valorItem;
+		ant = celulaAnt;
+		prox = proxCelula;
+	}
+}
+
+class CListaDup {
+	private CCelulaDup primeira; // Referencia a primeira celula da lista (celula cabeca)
+	private CCelulaDup ultima; // Referencia a ultima celula da lista
+	private int qtde, comp, mov;
+
+	public CListaDup() {
+		primeira = new CCelulaDup();
+		ultima = primeira;
+        qtde = 0;
         comp = 0;
         mov = 0;
 	}
@@ -631,312 +640,237 @@ class Lista{
     public int getComp() {return comp;}
     public int getMov() {return mov;}
 
-	/**
-	 * Insere um elemento na primeira posicao da lista e desloca os demais elementos
-	 * para o fim da lista.
-	 * 
-	 * @param Elemento a ser inserido.
-	 */
-	public boolean inserirInicio(Game item) {
-		if (n < array.length) {
-			// Desloca elementos para o fim do array
-			for (int i = n; i > 0; i--)
-				array[i] = array[i - 1];
+	public boolean vazia() {
+		return primeira == ultima;
+	}
 
-			array[0] = item.clone();
-			n++;
-			return true;
+	public void insereFim(Game valorItem) {
+		ultima.prox = new CCelulaDup(valorItem, ultima, null);
+		ultima = ultima.prox;
+		qtde++;
+	}
+
+	public void insereComeco(Game valorItem) {
+		if (primeira == ultima) { // Se a lista estiver vazia insere no fim
+			ultima.prox = new CCelulaDup(valorItem, ultima, null);
+			ultima = ultima.prox;
+		} else { // senao insere no comeco
+			primeira.prox = new CCelulaDup(valorItem, primeira, primeira.prox);
+			primeira.prox.prox.ant = primeira.prox;
 		}
-		return false;
+		qtde++;
 	}
 
-	/**
-	 * Insere um elemento na ultima posicao da lista.
-	 * 
-	 * @param Elemento a ser inserido.
-	 */
-	public boolean inserirFim(Game item) {
-		// validar insercao
-		if (n < array.length) {
-			array[n] = item.clone();
-			n++;
-			return true;
+	public void removeComecoSemRetorno() {
+		if (primeira != ultima) {
+			primeira = primeira.prox;
+			primeira.ant = null;
+			qtde--;
 		}
-		return false;
 	}
 
-	/**
-	 * Insere um elemento em uma posicao especifica e move os demais elementos para
-	 * o fim da lista.
-	 * 
-	 * @param item: elemento a ser inserido.
-	 * @param pos:  Posicao de insercao.
-	 */
-	public boolean inserir(Game item, int pos) {
-
-		// validar insercao
-		if (n < array.length && pos >= 0 && pos <= n) {
-			// Desloca elementos para o fim do array
-			for (int i = n; i > pos; i--)
-				array[i] = array[i - 1];
-
-			array[pos] = item.clone();
-			n++;
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Remove um elemento da primeira posicao da lista e movimenta os demais
-	 * elementos para o inicio da mesma.
-	 * 
-	 * @return Elemento a ser removido.
-	 */
-	public Object removerInicio() {
-		if (n > 0) {
-			Game item = array[0].clone();
-			n--;
-
-			for (int i = 0; i < n; i++)
-				array[i] = array[i + 1].clone();
-
-			return item.getName();
-		}
-		return null;
-	}
-
-	/**
-	 * Remove um elemento da ultima posicao da lista.
-	 * 
-	 * @return Elemento a ser removido.
-	 */
-	public Object removerFim() {
-		if (n > 0)
-			return array[--n].getName();
-		return null;
-	}
-
-	/**
-	 * Remove um elemento de uma posicao especifica da lista e movimenta os demais
-	 * elementos para o inicio da mesma.
-	 * 
-	 * @param pos: Posicao de remocao.
-	 * @return Elemento a ser removido.
-	 */
-	public Object remover(int pos) {
-		if (n > 0 && pos >= 0 && pos < n) {
-			Game item = array[pos].clone();
-			n--;
-
-			for (int i = pos; i < n; i++)
-				array[i] = array[i + 1].clone();
-
-			return item.getName();
-		}
-		return null;
-	}
-
-	/**
-	 * Mostra os elementos da lista separados por espacos.
-	 */
-	public void mostrar() {
-		//System.out.print("[ ");
-		for (int i = 0; i < n; i++) {
-			//System.out.print(array[i] + " ");
-            array[i].print();;
-		}
-		//System.out.println("]");
-	}
-
-	/**
-	 * Procura um elemento e retorna se ele existe.
-	 * 
-	 * @param x int elemento a ser pesquisado.
-	 * @return true se o item existir, false caso contr�rio.
-	 */
-    public boolean pesquisaSequencial(String x) {
-        boolean retorno = false;
- 
-        //MyIO.println("Pesquisar: " + x);
- 
-        for (int i = 0; i < n && retorno == false; i++) {
-             //MyIO.println("Array[i]: " + array[i].getName());
-             retorno = (array[i].getName().equals(x));
-        }
-        return retorno;
-     }
-
-    //pesquisa binaria por NOME
-    public boolean pesquisaBinaria(String x){
-        boolean retorno = false;
-        int dir = (n - 1), esq = 0, meio;
-
-        while (esq <= dir) {
-            meio = (esq + dir) / 2;
-            if (x.equals(array[meio].getName())) {
-                retorno = true;
-                esq = dir + 1;
-            } else if (x.compareTo(array[meio].getName()) > 0) {
-                esq = meio + 1;
-            } else {
-                dir = meio - 1;
-            }
+	public void imprime() {
+        for (CCelulaDup i = primeira.prox; i != null; i = i.prox) {
+            i.item.print();
         }
 
-        return retorno;
+		// CCelulaDup aux = primeira.prox;
+		// while (aux != null) {
+		// 	System.out.println(aux.item);
+		// 	aux = aux.prox;
+		// }
+	}
+
+	public void imprimeFor() {
+		for (CCelulaDup aux = primeira.prox; aux != null; aux = aux.prox)
+			System.out.println(aux.item);
+	}
+
+	public void imprimeInv() {
+		CCelulaDup aux = ultima;
+		while (aux.ant != null) {
+			System.out.println(aux.item);
+			aux = aux.ant;
+		}
+	}
+
+	public void imprimeInvFor() {
+		for (CCelulaDup aux = ultima; aux.ant != null; aux = aux.ant)
+			System.out.println(aux.item);
+	}
+
+	public boolean contem(Game elemento) {
+		boolean achou = false;
+		CCelulaDup aux = primeira.prox;
+		while (aux != null && !achou) {
+			achou = aux.item.equals(elemento);
+			aux = aux.prox;
+		}
+		return achou;
+	}
+
+	public boolean contemFor(Game elemento) {
+		boolean achou = false;
+		for (CCelulaDup aux = primeira.prox; aux != null && !achou; aux = aux.prox)
+			achou = aux.item.equals(elemento);
+		return achou;
+	}
+
+	public Game retornaPrimeiro() {
+		if (primeira != ultima)
+			return primeira.prox.item;
+		return null;
+	}
+
+	public Game retornaIndice(int posicao) {
+		if ((posicao >= 1) && (posicao <= qtde) && (primeira != ultima)) {
+			CCelulaDup aux = primeira.prox;
+			// Procura a posicao a ser inserido
+			for (int i = 1; i < posicao; i++, aux = aux.prox)
+				;
+			if (aux != null)
+				return aux.item;
+		}
+		return null;
+	}
+
+	public Game retornaUltimo() {
+		if (primeira != ultima)
+			return ultima.item;
+		return null;
+	}
+
+	public void removeFimSemRetorno() {
+		if (primeira != ultima) {
+			ultima = ultima.ant;
+			ultima.prox = null;
+			qtde--;
+		}
+	}
+
+	public void remove(Game valorItem) {
+		if (primeira != ultima) {
+			CCelulaDup aux = primeira.prox;
+			boolean achou = false;
+			while (aux != null && !achou) {
+				achou = aux.item.equals(valorItem);
+				if (!achou)
+					aux = aux.prox;
+			}
+			if (achou) { // achou o elemento
+				CCelulaDup anterior = aux.ant;
+				CCelulaDup proximo = aux.prox;
+				anterior.prox = proximo;
+				if (proximo != null)
+					proximo.ant = anterior;
+				else
+					ultima = anterior;
+				qtde--;
+			}
+		}
+	}
+
+	public Game removeRetornaComeco() {
+		if (primeira != ultima) {
+			CCelulaDup aux = primeira.prox;
+			primeira = primeira.prox;
+			primeira.ant = null;
+			qtde--;
+			return aux.item;
+		}
+		return null;
+	}
+
+	public Game removeRetornaFim() {
+		if (primeira != ultima) {
+			CCelulaDup aux = ultima;
+			ultima = ultima.ant;
+			ultima.prox = null;
+			qtde--;
+			return aux.item;
+		}
+		return null;
+	}
+
+	public int quantidade() {
+		return qtde;
+	}
+
+	public void teste() {
+		CCelulaDup i = primeira.prox;
+		CCelulaDup j = ultima;
+		CCelulaDup k;
+		while (j.prox != i) {
+			Game tmp = i.item;
+			i.item = j.item;
+			j.item = tmp;
+			i = i.prox;
+			for (k = primeira; k.prox != j; k = k.prox)
+				;
+			j = k;
+		}
+	}
+
+    //quicksort--------------------------------------------------------
+    public void quicksort() {
+        quicksort(0, qtde-1);
     }
 
-    public void swap(int i, int j) {
-        Game temp = array[i].clone();
-        array[i] = array[j].clone();
-        array[j] = temp.clone();
-     }
+    public CCelulaDup getCelulaIndex(int pos){
+        int tmp = 0;
+        CCelulaDup i;
+        for( i = primeira.prox; tmp < pos ; i = i.prox, tmp++);
+        return i;
+    }
 
-    public void selectionSort(){ //by name
-        for (int i = (n - 1); i > 0; i--) {
-            for (int j = 0; j < i; j++) {
+    private void quicksort(int esq, int dir) {
+        int i = esq, j = dir;
+        Game pivo = getCelulaIndex((esq + dir)/2 ).item;
+        while (i <= j) {
+            CCelulaDup aux = getCelulaIndex(i);
+            comp++;
+            while ((aux.item.getReleaseDate().compareTo(pivo.getReleaseDate()) < 0) || ((aux.item.getReleaseDate().compareTo(pivo.getReleaseDate()) == 0) && (aux.item.getName().compareTo(pivo.getName()) < 0))){
+                i++;
+                aux = aux.prox;
+            }
+            CCelulaDup index = getCelulaIndex(j);
+            while ((index.item.getReleaseDate().compareTo(pivo.getReleaseDate()) > 0) || ((index.item.getReleaseDate().compareTo(pivo.getReleaseDate()) == 0) && (index.item.getName().compareTo(pivo.getName()) > 0))){
+                j--;
+                index = index.ant;
+            }
+
+            if (i <= j) {
                 comp++;
-                if (array[i].getName().compareTo(array[j].getName()) < 0) { //(array[j].getName().compareTo(tmp.getName()) > 0)
                 swap(i, j);
-                mov += 2; //dentro de cada swap tem 2 movimentações
-                }
-            }
-        }
-    }
-
-    public void insertSort(){ //by app_id
-        // organize list by name - insercao
-        for (int i = 1; i < n; i++) {
-            Game tmp = new Game();
-			
-            tmp = array[i].clone();
-            int j = i - 1;
-
-            while ((j >= 0) && (array[j].getAppId() > tmp.getAppId())) {
-                comp += 2; //while has 2 comparassions
-                array[j + 1] = array[j].clone();
-                mov++;
+                i++;
                 j--;
             }
-            array[j + 1] = tmp.clone();
-            mov++;
         }
+        if (esq < j) {
+            comp++;
+            quicksort(esq, j);
+        }
+        if (i < dir) {
+            comp++;
+            quicksort(i, dir);
+        }
+
     }
 
-    //  --- Heapsort --- by release date
+    public void swap(int i, int primeiro) {
+        Game aux = getCelulaIndex(i).item;
+        getCelulaIndex(i).item = getCelulaIndex(primeiro).item;
+        getCelulaIndex(primeiro).item = aux;
+        mov++;
+    }
+    //quicksort--------------------------------------------------------
 
-            public void construir(int tamHeap){
-                for(int i = tamHeap; i > 1 && (array[i].getReleaseDate().compareTo(array[i/2].getReleaseDate()) > 0); i /= 2){
-                    comp++;
-                    swap(i, i/2);
-                    mov += 2;
-                }
-            }
-        
-        
-            public void reconstruir(int tamHeap){
-                int i = 1;
-                while(i <= (tamHeap/2)){
-                    comp++;
-                    int filho = getMaiorFilho(i, tamHeap);
-                    if(array[i].getReleaseDate().compareTo(array[filho].getReleaseDate()) < 0){
-                        comp++;
-                        swap(i, filho);
-                        mov += 2;
-                        i = filho;
-                    }else{
-                        i = tamHeap;
-                    }
-                }
-            }
-
-            public int getMaiorFilho(int i, int tamHeap){
-                int filho;
-                if (2*i == tamHeap || array[2*i].getReleaseDate().compareTo(array[2*i+1].getReleaseDate()) > 0){
-                    comp =+ 2; 
-                    filho = 2*i;
-                }else if(array[2*i].getReleaseDate().compareTo(array[2*i+1].getReleaseDate()) == 0){
-                        if(2*i == tamHeap || array[2*i].getName().compareTo(array[2*i+1].getName()) > 0){
-                            comp =+ 2; 
-                            filho = 2*i;
-                        }else{
-                            filho = 2*i + 1;
-                        }
-                } else {
-                   filho = 2*i + 1;
-                }
-                return filho;
-             }
-
-            public void heapsort(){
-                //Alterar o vetor ignorando a posicao zero
-                Game[] tmp = new Game[n+1];
-                for(int i = 0; i < n; i++){
-                    tmp[i+1] = array[i].clone();
-                }
-                array = tmp;
-
-                //Contrucao do heap
-                for(int tamHeap = 2; tamHeap <= n; tamHeap++){
-                    construir(tamHeap);
-                }
-
-                //Ordenacao propriamente dita
-                int tamHeap = n;
-                while(tamHeap > 1){
-                    swap(1, tamHeap--);
-                    reconstruir(tamHeap);
-                }
-
-                //Alterar o vetor para voltar a posicao zero
-                tmp = array;
-                array = new Game[n];
-                for(int i = 0; i < n; i++){
-                    array[i] = tmp[i+1].clone();
-                }
-            }
-    //  --- Heapsort ---
-
-    // --- Quicksort --- by release date
-            public void quicksort() {
-                quicksort(0, n-1);
-            }
-        
-            /**
-             * Algoritmo de ordenacao Quicksort.
-             * @param int esq inicio do array a ser ordenado
-            * @param int dir fim do array a ser ordenado
-            */
-            private void quicksort(int esq, int dir) {
-                int i = esq, j = dir;
-                Game pivo = array[(dir+esq)/2].clone();
-
-                while (i <= j) {
-                    comp++;
-                    while ((array[i].getReleaseDate().compareTo(pivo.getReleaseDate()) < 0) || ((array[i].getReleaseDate().compareTo(pivo.getReleaseDate()) == 0) && (array[i].getName().compareTo(pivo.getName()) < 0))) { //<
-                        i++;
-                        comp++;
-                    }
-                    while ((array[j].getReleaseDate().compareTo(pivo.getReleaseDate()) > 0) || ((array[j].getReleaseDate().compareTo(pivo.getReleaseDate()) == 0) && (array[j].getName().compareTo(pivo.getName()) > 0))) { //>
-                        j--;
-                        comp++;
-                    }
-                    if (i <= j) {
-                        comp++;
-                        swap(i, j);
-                        mov++;
-                        i++;
-                        j--;
-                    }
-                }
-                if (esq < j)  quicksort(esq, j);
-                if (i < dir)  quicksort(i, dir);
-            }
-    // --- Quicksort ---
 }
+//LISTA DUPLAMENTE CADEADA - FIM
 
-class TP03Q06{
+
+
+class TP04Q04{
     public static boolean isFim(String s){
         return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
     }
@@ -948,7 +882,7 @@ class TP03Q06{
         double inicio = algoritmo.now(), fim;
 
         //FIRST PART
-        Lista games = new Lista(100);
+        CListaDup games = new CListaDup();
 
         String[] entrada = new String[100];
 
@@ -1003,7 +937,7 @@ class TP03Q06{
                     //game.imprimir();     
 
                     //insert games in a List
-                    games.inserirFim(game);
+                    games.insereFim(game);
                     break;
                 }
             }
@@ -1019,7 +953,7 @@ class TP03Q06{
 
         //print list
         // MyIO.println("----------------lista final--------------");
-        games.mostrar();
+        games.imprime();
         // MyIO.println("----------------------------------");
 
         fim = algoritmo.now();
